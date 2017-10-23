@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  LearningFastAiVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.1.0/28
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      InstanceTenancy: default
+      Tags:
+      - Key: 'Name'
+        Value: 'Learning.FastAi'
+  FastAiInternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+      - Key: 'Name'
+        Value: 'FastAiInternetGateway'
+  FastAiIGLearningFastAiVpc:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    DependsOn: ['LearningFastAiVpc','FastAiInternetGateway']
+    Properties:
+      VpcId: !Ref LearningFastAiVpc
+      InternetGatewayId: !Ref FastAiInternetGateway
+  FastAiSubnet:  
+    Type: "AWS::EC2::Subnet"
+    DependsOn: LearningFastAiVpc
+    Properties:
+      CidrBlock: '10.0.1.0/28'
+      VpcId: !Ref LearningFastAiVpc
+  FastAiRouteTable:
+    Type: AWS::EC2::RouteTable
+    DependsOn: LearningFastAiVpc
+    Properties:
+      VpcId: !Ref LearningFastAiVpc
+  FastAiNetworkToInternet:
+    Type: AWS::EC2::Route
+    DependsOn: ['FastAiInternetGateway','FastAiRouteTable']
+    Properties:
+      RouteTableId: !Ref FastAiRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref FastAiInternetGateway
+  FastAiSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    DependsOn: LearningFastAiVpc      
+    Properties:
+      GroupDescription: 'Open up SSH and Jupyter Notebook'
+      VpcId: !Ref LearningFastAiVpc
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '8888'
+        ToPort: '8898'
+        CidrIp: 0.0.0.0/0                   
+Outputs:
+  LearningFastAiVpcId:
+    Description: Vpc Id for fast ai
+    Value : !Ref LearningFastAiVpc
+  FastAiSubnetId:
+    Description: Subnet fast ai
+    Value : !Ref FastAiSubnet    

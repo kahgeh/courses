@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  FastAiAsgLaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      ImageId: ami-bc508adc
+      SecurityGroups: !ImportValue FastAiSecurityGroup 
+      InstanceType: p2.xlarge
+      BlockDeviceMappings:
+          - DeviceName: "/dev/sda1"
+            Ebs:
+              VolumeSize: '128'
+              VolumneType: 'gp2'
+  FastAiServerGroup: 
+      Type: AWS::AutoScaling::AutoScalingGroup
+      Properties: 
+        AvailabilityZones: 
+          Fn::GetAZs: Ref! AWS::Region
+        LaunchConfigurationName: !Ref FastAiAsgLaunchConfig
+        MinSize : 1
+        MaxSize : 1
+ElasticLoadBalancer:
+  Type: AWS::ElasticLoadBalancing::LoadBalancer
+  Properties:
+    AvailabilityZones:
+      Fn::GetAZs: ''
+    Instances:
+    - Ref: Ec2Instance1
+    - Ref: Ec2Instance2
+    Listeners:
+    - LoadBalancerPort: '80'
+      InstancePort: '80'
+      Protocol: HTTP
+    HealthCheck:
+      Target: HTTP:80/
+      HealthyThreshold: '3'
+      UnhealthyThreshold: '5'
+      Interval: '30'
+      Timeout: '5'
+    ConnectionDrainingPolicy:
+      Enabled: 'true'
+      Timeout: '60'

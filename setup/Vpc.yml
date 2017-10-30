@@ -59,6 +59,15 @@ Outputs:
   LearningFastAiVpcId:
     Description: Vpc Id for fast ai
     Value : !Ref LearningFastAiVpc
+    Export: 
+      Name: LearningFastAiVpcId
   FastAiSubnetId:
     Description: Subnet fast ai
-    Value : !Ref FastAiSubnet    
+    Value : !Ref FastAiSubnet
+    Export:
+      Name: FastAiSubnetId   
+  FastAiSecurityGroup:
+    Description: Security group for fast ai 
+    Value : !Ref FastAiSecurityGroup
+    Export:
+      Name: FastAiSecurityGroup

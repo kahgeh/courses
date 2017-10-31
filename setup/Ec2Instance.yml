@@ -16,33 +16,16 @@ Resources:
               VolumeType: 'gp2'
       UserData:
         Fn::Base64: !Sub |
-           #!/bin/bash -xe
-           cd home/ubuntu
-           wget https://raw.githubusercontent.com/kahgeh/courses/master/setup/Lesson1Setup.sh
-           bash Lesson1Setup.sh
-           echo "[Unit]
-            Description=Jupyter Notebook
-
-            [Service]
-            Type=simple
-            PIDFile=/run/jupyter.pid
-            # Step 1 and Step 2 details are here..
-            # ------------------------------------
-            ExecStart=/home/ubuntu/anaconda2/bin/jupyter-notebook --config=/home/ubuntu/.jupyter/jupyter_notebook_config.py
-            User=ubuntu
-            Group=ubuntu
-            WorkingDirectory=/home/ubuntu/nbs
-            Restart=always
-            RestartSec=10
-            #KillMode=mixed
-
-            [Install]
-            WantedBy=multi-user.target
-            " >> /usr/lib/systemd/system/jupyter.service
-
-            sudo systemctl enable jupyter.service
-            sudo systemctl daemon-reload
-            sudo systemctl restart jupyter.service
+          #!/bin/bash -xe
+          cd home/ubuntu
+          wget https://raw.githubusercontent.com/kahgeh/courses/master/setup/jupyter.service
+          chmod +x jupyter.service
+          mv jupyter.service /usr/lib/systemd/system/jupyter.service
+          sudo systemctl enable jupyter.service
+          sudo systemctl daemon-reload
+          sudo systemctl restart jupyter.service
+          wget https://raw.githubusercontent.com/kahgeh/courses/master/setup/Lesson1Setup.sh
+          bash Lesson1Setup.sh
   FastAiElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:

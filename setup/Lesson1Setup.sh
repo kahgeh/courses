@@ -6,6 +6,7 @@ wget https://raw.githubusercontent.com/fastai/courses/master/deeplearning1/nbs/v
 mkdir -p data    
 mv dogscats.zip ./data    
 cd data
+sudo apt install unzip
 unzip -q dogscats.zip
 rm dogscats.zip
 pip install kaggle-cli

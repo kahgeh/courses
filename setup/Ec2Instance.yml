@@ -14,6 +14,12 @@ Resources:
             Ebs:
               VolumeSize: '128'
               VolumeType: 'gp2'
+      UserData:
+        Fn::Base64: !Sub |
+           #!/bin/bash -xe
+           cd home/ubuntu
+           wget https://raw.githubusercontent.com/kahgeh/courses/master/setup/Lesson1Setup.sh
+           bash Lesson1Setup.sh
   FastAiElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:

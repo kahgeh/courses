@@ -23,11 +23,13 @@ Resources:
       VpcId: !Ref LearningFastAiVpc
       InternetGatewayId: !Ref FastAiInternetGateway
   FastAiSubnet:  
-    Type: "AWS::EC2::Subnet"
+    Type: AWS::EC2::Subnet
     DependsOn: LearningFastAiVpc
     Properties:
       CidrBlock: '10.0.1.0/28'
+      AvailabilityZone: 'us-west-2a'
       VpcId: !Ref LearningFastAiVpc
+      MapPublicIpOnLaunch: true      
   FastAiRouteTable:
     Type: AWS::EC2::RouteTable
     DependsOn: LearningFastAiVpc
@@ -40,6 +42,11 @@ Resources:
       RouteTableId: !Ref FastAiRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref FastAiInternetGateway
+  FastAiSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref FastAiRouteTable
+      SubnetId: !Ref FastAiSubnet          
   FastAiSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     DependsOn: LearningFastAiVpc      
@@ -54,7 +61,8 @@ Resources:
       - IpProtocol: tcp
         FromPort: '8888'
         ToPort: '8898'
-        CidrIp: 0.0.0.0/0                   
+        CidrIp: 0.0.0.0/0                  
+      
 Outputs:
   LearningFastAiVpcId:
     Description: Vpc Id for fast ai

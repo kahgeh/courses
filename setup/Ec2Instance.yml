@@ -4,6 +4,8 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       ImageId: ami-bc508adc
+      SpotPrice: "0.80"
+      KeyName: "aws-key"
       SecurityGroups: 
         - !ImportValue FastAiSecurityGroup 
       InstanceType: p2.xlarge
@@ -12,11 +14,14 @@ Resources:
             Ebs:
               VolumeSize: '128'
               VolumeType: 'gp2'
+      UserData:
+        Fn::Base64: !Sub |
+           
   FastAiElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
-      AvailabilityZones:
-        Fn::GetAZs: 'us-west-2'
+      Subnets:
+      - !ImportValue FastAiSubnetId
       Listeners:
       - LoadBalancerPort: '8888'
         InstancePort: '8888'
@@ -28,9 +33,11 @@ Resources:
       Type: AWS::AutoScaling::AutoScalingGroup
       Properties: 
         AvailabilityZones: 
-          Fn::GetAZs: Ref! AWS::Region
+        - 'us-west-2a'
         LaunchConfigurationName: !Ref FastAiAsgLaunchConfig
         LoadBalancerNames:
-          - FastAiElasticLoadBalancer
+          - !Ref FastAiElasticLoadBalancer
         MinSize : 1
         MaxSize : 1
+        VPCZoneIdentifier:
+        - !ImportValue FastAiSubnetId

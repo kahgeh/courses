@@ -18,9 +18,11 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
           cd home/ubuntu
+          sudo apt install unzip
           wget https://raw.githubusercontent.com/kahgeh/courses/master/setup/jupyter.service
           chmod +x jupyter.service
-          mv jupyter.service /usr/lib/systemd/system/jupyter.service
+          sudo mkdir /usr/lib/systemd/system
+          sudo mv jupyter.service /usr/lib/systemd/system/jupyter.service
           sudo systemctl enable jupyter.service
           sudo systemctl daemon-reload
           sudo systemctl restart jupyter.service

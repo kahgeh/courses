@@ -14,9 +14,6 @@ Resources:
             Ebs:
               VolumeSize: '128'
               VolumeType: 'gp2'
-      UserData:
-        Fn::Base64: !Sub |
-           
   FastAiElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:

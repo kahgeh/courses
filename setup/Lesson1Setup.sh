@@ -10,6 +10,3 @@ cd data
 unzip -q dogscats.zip
 rm dogscats.zip
 pip install kaggle-cli
-
-cd ..
-jupyter notebook

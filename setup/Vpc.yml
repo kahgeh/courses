@@ -62,7 +62,6 @@ Resources:
         FromPort: '8888'
         ToPort: '8898'
         CidrIp: 0.0.0.0/0                  
-      
 Outputs:
   LearningFastAiVpcId:
     Description: Vpc Id for fast ai

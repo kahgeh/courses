@@ -12,6 +12,7 @@ Group=ubuntu
 WorkingDirectory=/home/ubuntu
 Restart=always
 RestartSec=10
+ExecStartPre=source /home/ubuntu/src/anaconda3/bin/activate fastai
 #KillMode=mixed
 
 [Install]

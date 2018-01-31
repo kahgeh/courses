@@ -6,7 +6,7 @@ Type=simple
 PIDFile=/run/jupyter.pid
 # Step 1 and Step 2 details are here..
 # ------------------------------------
-ExecStart=source /home/ubuntu/src/anaconda3/bin/activate fastai && /home/ubuntu/src/anaconda3/bin/jupyter-notebook
+ExecStart=/home/ubuntu/runJupyterNotebook.sh
 User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu

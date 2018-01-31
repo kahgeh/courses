@@ -18,8 +18,11 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
           cd home/ubuntu
+          wget https://raw.githubusercontent.com/kahgeh/courses/master/setup/runJupyterNotebook.sh
+          chmod +x runJupyterNotebook.sh
           wget https://raw.githubusercontent.com/kahgeh/courses/master/setup/jupyter.service
           chmod +x jupyter.service
+          
           sudo mkdir /usr/lib/systemd/system
           sudo mv jupyter.service /usr/lib/systemd/system/jupyter.service
           sudo systemctl enable jupyter.service

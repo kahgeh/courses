@@ -3,8 +3,8 @@ Resources:
   FastAiAsgLaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
-      ImageId: ami-bc508adc
-      SpotPrice: "0.80"
+      ImageId: ami-8c4288f4
+      SpotPrice: "0.90"
       KeyName: "aws-key"
       SecurityGroups: 
         - !ImportValue FastAiSecurityGroup 

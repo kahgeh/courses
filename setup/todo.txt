@@ -1,4 +1,0 @@
-Objective is to create a spot instance, however in order to do that need to create spot fleet, that seems complex because ...?
-
-So the strategy is to use autoscaling group.
-

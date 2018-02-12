@@ -21,6 +21,7 @@ Resources:
           cd fastai
           git pull
           conda env update
+          pip install kaggle-cli --upgrade
   FastAiElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:

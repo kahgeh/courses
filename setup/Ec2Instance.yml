@@ -20,12 +20,12 @@ Resources:
           cd home/ubuntu
           cd fastai
           git pull
-          conda env update
-          pip install kaggle-cli --upgrade
           curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
           curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | sudo tee /etc/apt/sources.list.d/microsoft.list
           sudo apt-get update
           sudo apt-get install -y powershell
+          pip install kaggle-cli --upgrade  
+          conda env update        
   FastAiElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:

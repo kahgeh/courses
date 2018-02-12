@@ -22,6 +22,10 @@ Resources:
           git pull
           conda env update
           pip install kaggle-cli --upgrade
+          curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+          sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-jessie-prod jessie main" > /etc/apt/sources.list.d/microsoft.list'
+          apt-get update
+          apt-get install -y powershell          
   FastAiElasticLoadBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
